@@ -1,0 +1,171 @@
+﻿<!DCOTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>echarts testing page</title>
+		<script src="./js/esl.js"></script>
+		<script src="./js/echarts.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<div id="main" style="height:400px;"></div>
+		<script type="text/javascript">
+			require.config({
+				paths:{
+					"echarts":"js/echarts",
+					"echarts/chart/force":"js/force"
+				}
+			});
+			
+			//using javascript
+			require(
+				[
+					"echarts",
+					"echarts/chart/force"
+				],
+				function(ec){
+					var myChart=ec.init(document.getElementById("main"));  
+                    <!--Input your code here-->					
+					
+var nodes = [];
+var links = [];
+var constMaxDepth = 4;
+var constMaxChildren = 3;
+var constMinChildren = 2;
+var constMaxRadius = 10;
+var constMinRadius = 2;
+var mainDom = document.getElementById('main');
+
+function rangeRandom(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+function createRandomNode(depth) {
+    var x = mainDom.clientWidth / 2 + (.5 - Math.random()) * 200;
+    var y = (mainDom.clientHeight - 20) * depth / (constMaxDepth + 1) + 20;
+    var node = {
+        name : 'NODE_' + nodes.length,
+        value : rangeRandom(constMinRadius, constMaxRadius),
+        // Custom properties
+        id : nodes.length,
+        depth : depth,
+        initial : [x, y],
+        fixY : true,
+        category : depth === constMaxDepth ? 0 : 1
+    }
+    nodes.push(node);
+
+    return node;
+}
+
+function forceMockThreeData() {
+    var depth = 0;
+
+    var rootNode = createRandomNode(0);
+    rootNode.name = 'ROOT';
+    rootNode.category = 2;
+
+    function mock(parentNode, depth) {
+        var nChildren = Math.round(rangeRandom(constMinChildren, constMaxChildren));
+        
+        for (var i = 0; i < nChildren; i++) {
+            var childNode = createRandomNode(depth);
+            links.push({
+                source : parentNode.id,
+                target : childNode.id,
+                weight : 1 
+            });
+            if (depth < constMaxDepth) {
+                mock(childNode, depth + 1);
+            }
+        }
+    }
+
+    mock(rootNode, 1);
+}
+
+forceMockThreeData();
+
+option = {
+    title : {
+        text: 'Force',
+        subtext: 'Force-directed tree',
+        x:'right',
+        y:'bottom'
+    },
+    tooltip : {
+        trigger: 'item',
+        formatter: '{a} : {b}'
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            restore : {show: true},
+            magicType: {show: true, type: ['force', 'chord']},
+            saveAsImage : {show: true}
+        }
+    },
+    legend: {
+        x: 'left',
+        data:['叶子节点','非叶子节点', '根节点']
+    },
+    series : [
+        {
+            type:'force',
+            name : "Force tree",
+            ribbonType: false,
+            categories : [
+                {
+                    name: '叶子节点',
+                    itemStyle: {
+                        normal: {
+                            color : '#ff7f50'
+                        }
+                    }
+                },
+                {
+                    name: '非叶子节点',
+                    itemStyle: {
+                        normal: {
+                            color : '#6f57bc'
+                        }
+                    }
+                },
+                {
+                    name: '根节点',
+                    itemStyle: {
+                        normal: {
+                            color : '#af0000'
+                        }
+                    }
+                }
+            ],
+            itemStyle: {
+                normal: {
+                    label: {
+                        show: false
+                    },
+                    nodeStyle : {
+                        brushType : 'both',
+                        strokeColor : 'rgba(255,215,0,0.6)',
+                        lineWidth : 1
+                    }
+                }
+            },
+            minRadius : constMinRadius,
+            maxRadius : constMaxRadius,
+            nodes : nodes,
+            links : links
+        }
+    ]
+};
+
+                    
+                    
+                    <!--Input your code here-->					
+					//loading data
+					myChart.setOption(option);
+				}
+			);
+		</script>
+	</body>
+</html>
