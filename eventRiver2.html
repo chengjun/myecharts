@@ -1,0 +1,86 @@
+﻿<!DCOTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>echarts testing page</title>
+		<script src="./js/esl.js"></script>
+		<script src="./js/echarts.js" type="text/javascript"></script>
+		<script type="text/javascript" src="./js/echartsHome.js"></script>
+		<script src="./js/echartsExample.js"></script>
+		<script src="./js/codemirror.js"></script>
+        <script src="./js/javascript.js"></script>
+	</head>
+	<body>
+		<div id="main" style="height:400px;"></div>
+		<script type="text/javascript">
+			require.config({
+				paths:{
+					"echarts":"js/echarts",
+					"echarts/chart/eventRiver":"js/eventRiver"
+				}
+			});
+			
+			//using javascript
+			require(
+				[
+					"echarts",
+					"echarts/chart/eventRiver"
+				],
+				function(ec){
+					var myChart=ec.init(document.getElementById("main"));  
+                    <!--Input your code here-->					
+					var var legendName = [];
+for (var i = 0, l = eventRiver2Data.length; i < l; i++) {
+    legendName.push(eventRiver2Data[i].name);
+    eventRiver2Data[i].itemStyle = {
+        normal: {
+            label: {
+                show:false
+            }
+        },
+        emphasis: {
+            label: {
+                show:false
+            }
+        }
+    }
+}
+
+option = {
+    title : {
+        text: 'Event River',
+        subtext: '纯属虚构'
+    },
+    tooltip : {
+        trigger: 'item',
+        enterable: true
+    },
+    legend: {
+        data: legendName
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            mark : {show: true},
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+    xAxis : [
+        {
+            type : 'time',
+            boundaryGap: [0.05,0.1]
+        }
+    ],
+    series : eventRiver2Data
+};
+                    
+                    
+                    <!--Input your code here-->					
+					//loading data
+					myChart.setOption(option);
+				}
+			);
+		</script>
+	</body>
+</html>
