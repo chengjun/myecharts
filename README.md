@@ -5,7 +5,7 @@
 - 其次，使用require方法调用echarts.js和具体使用的类型图的js（比如map.js）。
 - 再次，输入需要输入的数据。
 
-![效果](http://chengjun.github.io/cn/2015/01/myecharts/)
+[效果](http://chengjun.github.io/cn/2015/01/myecharts/)
 
 <iframe src="http://chengjun.github.io/cn/2015/01/myecharts/" scrolling="no" width="600" ></iframe>
 
